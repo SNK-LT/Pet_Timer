@@ -20,9 +20,11 @@ import javafx.scene.control.TextField;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
+import javafx.stage.StageStyle;
 import javafx.util.Duration;
 import java.awt.Desktop;
 import java.net.URI;
@@ -98,6 +100,7 @@ public class InitializeController implements Initializable {
 
                     Scene currentScene = ((Node) event.getSource()).getScene();
                     Scene newScene = new Scene(root);
+                    newScene.setFill(Color.TRANSPARENT);
 
                     Stage primaryStage = (Stage) currentScene.getWindow();
                     primaryStage.setScene(newScene);
