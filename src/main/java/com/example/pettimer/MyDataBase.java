@@ -42,7 +42,7 @@ public class MyDataBase {
         }
         if(!loggedIn)
         {
-            System.out.println("wrong log/pass");
+            System.out.println("wrong login or password");
             return false;
         }
         else
