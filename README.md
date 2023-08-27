@@ -10,6 +10,11 @@
 </div>
 
 <div align="center">
-
+  
 ![image](https://user-images.githubusercontent.com/70410264/218915746-1b2ed9d2-06f5-49e4-83ab-a2c414b1df8e.png)
+</div>
+
+<div align="center">
+  
+![Sequence 01_1](https://github.com/SNK-LT/Pet-Timer/assets/70410264/9f3028dc-ba25-4e9d-b8d8-a6a8d2a6c56b)
 </div>
