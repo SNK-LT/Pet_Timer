@@ -16,5 +16,5 @@
 
 <div align="center">
   
-![Sequence 01_1](https://github.com/SNK-LT/Pet-Timer/assets/70410264/9f3028dc-ba25-4e9d-b8d8-a6a8d2a6c56b)
+![Sequence 01_1](https://github.com/SNK-LT/Pet_Timer/assets/70410264/dff013df-ac48-4005-8c4a-6f13c678742d)
 </div>
