@@ -28,7 +28,7 @@
                </image>
             </ImageView>
             <PasswordField fx:id="passField" layoutX="118.0" layoutY="74.0" promptText="password" style="-fx-background-color: linear-gradient(to bottom, #212624, #2E303E); -fx-text-fill: white;" />
-            <TextField fx:id="pass2Field" layoutX="118.0" layoutY="74.0" promptText="password" style="-fx-background-color: linear-gradient(to bottom, #212624, #2E303E);" visible="false" />
+            <TextField fx:id="pass2Field" layoutX="118.0" layoutY="74.0" promptText="password" style="-fx-background-color: linear-gradient(to bottom, #212624, #2E303E); -fx-text-fill: white;" visible="false" />
             <Text fx:id="noAccText" fill="WHITE" layoutX="159.0" layoutY="119.0" onMouseClicked="#noAccTextClicked" strokeType="OUTSIDE" strokeWidth="0.0" text="No account?" />
          </children>
       </AnchorPane>

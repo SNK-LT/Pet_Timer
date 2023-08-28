@@ -1,9 +1,6 @@
 package com.example.pettimer;
 
-import javafx.animation.RotateTransition;
-import javafx.animation.ScaleTransition;
-import javafx.animation.Timeline;
-import javafx.animation.TranslateTransition;
+import javafx.animation.*;
 import javafx.application.Platform;
 import javafx.beans.property.DoubleProperty;
 import javafx.event.ActionEvent;
@@ -22,6 +19,7 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
+import javafx.scene.shape.Path;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
@@ -105,18 +103,57 @@ public class InitializeController implements Initializable {
                     Stage primaryStage = (Stage) currentScene.getWindow();
                     primaryStage.setScene(newScene);
                 }
+                else
+                {
+                    loginField.clear();
+                    passField.clear();
+
+                    TranslateTransition tt = new TranslateTransition();
+                    tt.setDuration(Duration.millis(50));
+                    tt.setNode(slidingField);
+
+                    tt.setToX(-10);
+                    tt.setAutoReverse(true);
+                    tt.setCycleCount(4);
+                    tt.play();
+                }
             }
             else
             {
                 if(DateBase.tryToLogin(loginField.getText(), pass2Field.getText(), cn) == true)
                 {
+                    FXMLLoader loader = new FXMLLoader(HelloApplication.class.getResource("mainScene.fxml"));
+                    Parent root = loader.load();
 
+                    Scene currentScene = ((Node) event.getSource()).getScene();
+                    Scene newScene = new Scene(root);
+                    newScene.setFill(Color.TRANSPARENT);
+
+                    Stage primaryStage = (Stage) currentScene.getWindow();
+                    primaryStage.setScene(newScene);
+                }
+                else
+                {
+                    loginField.clear();
+                    pass2Field.clear();
+
+                    TranslateTransition tt = new TranslateTransition();
+                    tt.setDuration(Duration.millis(50));
+                    tt.setNode(slidingField);
+
+                    tt.setToX(-10);
+                    tt.setAutoReverse(true);
+                    tt.setCycleCount(4);
+                    tt.play();
                 }
             }
         }
         else if(loginButton.getText().equals("Create"))
         {
-
+            if(passField.isVisible())
+                DateBase.tryToCreateAcc(loginField.getText(), passField.getText(), cn);
+            else
+                DateBase.tryToCreateAcc(loginField.getText(), pass2Field.getText(), cn);
         }
         else
         {
@@ -180,7 +217,7 @@ public class InitializeController implements Initializable {
 
     @FXML
     void helpClicked(ActionEvent event) throws URISyntaxException, IOException {
-        Desktop.getDesktop().browse(new URI("https://github.com/SNK-LT/PetTimer/blob/master/README.md"));
+        Desktop.getDesktop().browse(new URI("https://github.com/SNK-LT/Pet_Timer#readme"));
     }
 
     @FXML
@@ -209,7 +246,6 @@ public class InitializeController implements Initializable {
             noAccText.setText("No account?");
             loginButton.setText("Login");
             noAcc = true;
-
         }
         loginField.setText("");
         passField.setText("");

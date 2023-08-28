@@ -29,18 +29,18 @@ public class MyDataBase {
         String SQL = "SELECT * FROM users";
 
         ResultSet result = statement.executeQuery(SQL);
-        boolean loggedIn = false;
+        boolean loggedIn = true;
         while(result.next())
         {
             if(login.equals(result.getString("login"))
                     && password.equals(result.getString("password")))
             {
                 System.out.println("logged");
-                loggedIn = true;
+                loggedIn = false;
                 break;
             }
         }
-        if(!loggedIn)
+        if(loggedIn)
         {
             System.out.println("wrong login or password");
             return false;
@@ -48,4 +48,30 @@ public class MyDataBase {
         else
             return true;
     }
+
+    public void tryToCreateAcc(String log, String pass, Connection cn)  throws SQLException {
+        Statement statement = cn.createStatement();
+        String SQL = "SELECT * FROM users";
+
+        ResultSet result = statement.executeQuery(SQL);
+        boolean created = true;
+        while(result.next())
+        {
+            if(log.equals(result.getString("login")))
+            {
+                System.out.println("Such login already exists");
+                created = false;
+                break;
+            }
+        }
+        if(created)
+        {
+            System.out.println("User was created");
+            statement = cn.createStatement();
+            SQL = "INSERT INTO users  (login, password) values ('" + log + "', '" + pass + "')";
+
+            statement.executeQuery(SQL);
+        }
+    }
+
 }
