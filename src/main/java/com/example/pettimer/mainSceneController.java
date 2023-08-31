@@ -2,17 +2,29 @@ package com.example.pettimer;
 
 import javafx.application.Platform;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.geometry.Insets;
 import javafx.scene.Node;
+import javafx.scene.control.ScrollPane;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.GridPane;
+import javafx.scene.layout.Pane;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
+import java.io.IOException;
 import java.net.URL;
 import java.sql.SQLException;
 import java.util.ResourceBundle;
 
 public class mainSceneController implements Initializable {
+
+    @FXML
+    private GridPane ActivitiesGrid;
+
+    @FXML
+    private ScrollPane scrollPane;
 
     @FXML
     private Text idText;
@@ -28,13 +40,28 @@ public class mainSceneController implements Initializable {
 
     private double xOffset = 0;
     private double yOffset = 0;
+    private int row = 0;
 
     public mainSceneController() throws SQLException {
     }
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
+        for(int i = 0; i < 10; i++)
+        {
+            try {
+                FXMLLoader fxmlLoader = new FXMLLoader();
+                fxmlLoader.setLocation(getClass().getResource("activity.fxml"));
 
+                Pane pane = fxmlLoader.load();
+
+                ActivitiesGrid.add(pane, 0, row);
+                GridPane.setMargin(pane, new Insets(0, 0, 10, 0));
+                row++;
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
     }
 
     @FXML
