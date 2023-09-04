@@ -21,9 +21,9 @@
                   <Image url="@../../../imagGifsVid/collapseImp.png" />
                </image>
             </ImageView>
-            <ScrollPane fx:id="scrollPane" hbarPolicy="NEVER" layoutX="40.0" layoutY="50.0" prefHeight="300.0" prefWidth="520.0" style="-fx-background: transparent; -fx-background-color: transparent;" vbarPolicy="NEVER">
+            <ScrollPane fx:id="scrollPane" hbarPolicy="NEVER" layoutX="40.0" layoutY="25.0" prefHeight="350.0" prefWidth="520.0" style="-fx-background: transparent; -fx-background-color: transparent;" vbarPolicy="NEVER">
                <content>
-                  <GridPane fx:id="ActivitiesGrid" alignment="CENTER" prefHeight="300.0" prefWidth="500.0" style="-fx-background-color: transparent;">
+                  <GridPane fx:id="ActivitiesGrid" alignment="CENTER" prefHeight="350.0" prefWidth="520.0" style="-fx-background-color: transparent;">
                     <columnConstraints>
                       <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
                     </columnConstraints>

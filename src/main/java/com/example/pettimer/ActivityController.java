@@ -30,6 +30,9 @@ public class ActivityController implements Initializable {
     private Text secTime;
 
     @FXML
+    private ImageView statisticImage;
+
+    @FXML
     private ImageView stopImage;
 
     /*public DateTimeFormatter dtf = DateTimeFormatter.ofPattern("HH:mm:ss");
@@ -42,6 +45,11 @@ public class ActivityController implements Initializable {
     private int sec = 0;
 
     public ActivityController(){
+    }
+
+    @FXML
+    void statisticImageClicked(MouseEvent event) {
+
     }
 
     @FXML
@@ -62,17 +70,17 @@ public class ActivityController implements Initializable {
                         if(sec == 60)
                         {
                             min++;
-                            minTime.setText(min + ":");
+                            minTime.setText(":" + min);
                             sec = 0;
                         }
                         if(min == 60)
                         {
                             hours++;
-                            hTime.setText(hours + ":");
+                            hTime.setText(String.valueOf(hours));
                             min = 0;
                         }
                         sec++;
-                        secTime.setText(Integer.toString(sec));
+                        secTime.setText(":" + sec);
                     }
                     catch (Exception e)
                     {
