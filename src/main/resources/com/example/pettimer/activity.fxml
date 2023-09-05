@@ -18,19 +18,9 @@
             <Font size="28.0" />
          </font>
       </Text>
-      <Text fx:id="hTime" fill="WHITE" layoutX="320.0" layoutY="40.0" strokeType="OUTSIDE" strokeWidth="0.0" text="00">
+      <Text fx:id="timeText" fill="WHITE" layoutX="377.0" layoutY="35.0" strokeType="OUTSIDE" strokeWidth="0.0" text="00:00:00">
          <font>
-            <Font size="42.0" />
-         </font>
-      </Text>
-      <Text fx:id="minTime" fill="WHITE" layoutX="375.0" layoutY="40.0" strokeType="OUTSIDE" strokeWidth="0.0" text="00">
-         <font>
-            <Font size="42.0" />
-         </font>
-      </Text>
-      <Text fx:id="secTime" fill="WHITE" layoutX="430.0" layoutY="40.0" strokeType="OUTSIDE" strokeWidth="0.0" text="00">
-         <font>
-            <Font size="42.0" />
+            <Font size="32.0" />
          </font>
       </Text>
       <ImageView fx:id="stopImage" fitHeight="50.0" fitWidth="50.0" layoutX="25.0" layoutY="14.0" onMouseClicked="#stopImageClicked" pickOnBounds="true" preserveRatio="true" visible="false">

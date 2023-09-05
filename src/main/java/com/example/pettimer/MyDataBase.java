@@ -1,12 +1,20 @@
 package com.example.pettimer;
 
 import java.sql.*;
+import java.util.ArrayList;
+import java.util.HashMap;
 
 public class MyDataBase {
 
     //static final String DB_USERNAME = "postgres";
     //static final String DB_PASSWORD = "kbndbyjd";
     //static final String DB_URL = "jdbc:postgresql://localhost:5432/postgres?currentSchema=PetTimer";
+
+    private String UserId;
+
+    public MyDataBase(){
+
+    }
 
     public Connection connectToDB(String dbname, String user, String pass) {
         Connection conn = null;
@@ -24,6 +32,7 @@ public class MyDataBase {
         }
         return conn;
     }
+
     public boolean tryToLogin(String login, String password, Connection cn) throws SQLException {
         Statement statement = cn.createStatement();
         String SQL = "SELECT * FROM users";
@@ -37,6 +46,9 @@ public class MyDataBase {
             {
                 System.out.println("logged");
                 loggedIn = false;
+
+                UserId = result.getString("id");
+
                 break;
             }
         }
@@ -72,6 +84,28 @@ public class MyDataBase {
 
             statement.executeQuery(SQL);
         }
+    }
+
+    public HashMap<String, String> getAllActivities(Connection cn)throws SQLException{
+
+        HashMap<String, String> activityNames = new HashMap<>();
+
+        Statement statement = cn.createStatement();
+        String SQL = "SELECT a.id, a.name FROM activities as a " +
+                "inner join users as u ON u.id = a.user_id " +
+                "where u.login = '" + UserId + "';";
+
+        ResultSet result = statement.executeQuery(SQL);
+
+        while(result.next())
+        {
+            activityNames.put(result.getString("id"), result.getString("name"));
+        }
+        return activityNames;
+    }
+
+    public void endActivity(String log, String pass, Connection cn)  throws SQLException{
+
     }
 
 }

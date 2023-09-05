@@ -15,10 +15,17 @@ import javafx.stage.Stage;
 
 import java.io.IOException;
 import java.net.URL;
+import java.sql.Connection;
 import java.sql.SQLException;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.Map;
 import java.util.ResourceBundle;
 
 public class mainSceneController implements Initializable {
+
+    private MyDataBase DateBase = new MyDataBase();
+    private Connection cn = DateBase.connectToDB("PetTimer", "postgres", "2311");
 
     @FXML
     private GridPane ActivitiesGrid;
@@ -46,10 +53,13 @@ public class mainSceneController implements Initializable {
     }
 
     @Override
-    public void initialize(URL url, ResourceBundle resourceBundle) {
-        for(int i = 0; i < 10; i++)
-        {
-            try {
+    public void initialize(URL url, ResourceBundle resourceBundle){
+
+        try {
+            HashMap<String, String> allActivities = DateBase.getAllActivities(cn);
+
+            for(Map.Entry<String, String> entry : allActivities.entrySet())
+            {
                 FXMLLoader fxmlLoader = new FXMLLoader();
                 fxmlLoader.setLocation(getClass().getResource("activity.fxml"));
 
@@ -58,9 +68,10 @@ public class mainSceneController implements Initializable {
                 ActivitiesGrid.add(pane, 0, row);
                 GridPane.setMargin(pane, new Insets(0, 0, 10, 0));
                 row++;
-            } catch (IOException e) {
-                e.printStackTrace();
             }
+
+        } catch (IOException | SQLException e) {
+            e.printStackTrace();
         }
     }
 
