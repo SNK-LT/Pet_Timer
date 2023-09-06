@@ -86,7 +86,7 @@ public class MyDataBase {
         }
     }
 
-    public HashMap<String, String> getAllActivities(Connection cn)throws SQLException{
+    public HashMap<String, String> getAllUserActivities(Connection cn)throws SQLException{
 
         HashMap<String, String> activityNames = new HashMap<>();
 

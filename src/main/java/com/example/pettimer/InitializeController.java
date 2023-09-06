@@ -107,15 +107,7 @@ public class InitializeController implements Initializable {
                 {
                     loginField.clear();
                     passField.clear();
-
-                    TranslateTransition tt = new TranslateTransition();
-                    tt.setDuration(Duration.millis(50));
-                    tt.setNode(slidingField);
-
-                    tt.setToX(-10);
-                    tt.setAutoReverse(true);
-                    tt.setCycleCount(4);
-                    tt.play();
+                    errorLoginShake();
                 }
             }
             else
@@ -136,15 +128,7 @@ public class InitializeController implements Initializable {
                 {
                     loginField.clear();
                     pass2Field.clear();
-
-                    TranslateTransition tt = new TranslateTransition();
-                    tt.setDuration(Duration.millis(50));
-                    tt.setNode(slidingField);
-
-                    tt.setToX(-10);
-                    tt.setAutoReverse(true);
-                    tt.setCycleCount(4);
-                    tt.play();
+                    errorLoginShake();
                 }
             }
         }
@@ -264,5 +248,16 @@ public class InitializeController implements Initializable {
         TranslateTransition ttFirst = new TranslateTransition(Duration.millis(1), slidingField);
         ttFirst.setToX(-200);
         ttFirst.play();
+    }
+
+    private void errorLoginShake(){
+        TranslateTransition tt = new TranslateTransition();
+        tt.setDuration(Duration.millis(50));
+        tt.setNode(slidingField);
+
+        tt.setToX(-10);
+        tt.setAutoReverse(true);
+        tt.setCycleCount(4);
+        tt.play();
     }
 }

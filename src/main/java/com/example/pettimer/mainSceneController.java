@@ -56,7 +56,7 @@ public class mainSceneController implements Initializable {
     public void initialize(URL url, ResourceBundle resourceBundle){
 
         try {
-            HashMap<String, String> allActivities = DateBase.getAllActivities(cn);
+            HashMap<String, String> allActivities = DateBase.getAllUserActivities(cn);
 
             for(Map.Entry<String, String> entry : allActivities.entrySet())
             {
