@@ -1,7 +1,6 @@
 package com.example.pettimer;
 
 import java.sql.*;
-import java.util.ArrayList;
 import java.util.HashMap;
 
 public class MyDataBase {
@@ -11,12 +10,13 @@ public class MyDataBase {
     //static final String DB_URL = "jdbc:postgresql://localhost:5432/postgres?currentSchema=PetTimer";
 
     private String UserId;
+    private String UserName;
 
-    public MyDataBase(){
+    private HashMap<String, String> userActivities;
 
-    }
+    private Connection connection;
 
-    public Connection connectToDB(String dbname, String user, String pass) {
+    public MyDataBase(String dbname, String user, String pass){
         Connection conn = null;
         try {
             Class.forName("org.postgresql.Driver");
@@ -30,7 +30,23 @@ public class MyDataBase {
         } catch (Exception e) {
             System.out.println(e);
         }
-        return conn;
+        connection = conn;
+    }
+
+    public String getUserId() {
+        return UserId;
+    }
+
+    public String getUserName() {
+        return UserName;
+    }
+
+    public Connection getConnection() {
+        return connection;
+    }
+
+    public HashMap<String, String> getUserActivities() {
+        return userActivities;
     }
 
     public boolean tryToLogin(String login, String password, Connection cn) throws SQLException {
@@ -48,6 +64,7 @@ public class MyDataBase {
                 loggedIn = false;
 
                 UserId = result.getString("id");
+                UserName = result.getString("login");
 
                 break;
             }
@@ -86,14 +103,14 @@ public class MyDataBase {
         }
     }
 
-    public HashMap<String, String> getAllUserActivities(Connection cn)throws SQLException{
+    public HashMap<String, String> getAllUserActivities()throws SQLException{
 
         HashMap<String, String> activityNames = new HashMap<>();
 
-        Statement statement = cn.createStatement();
+        Statement statement = connection.createStatement();
         String SQL = "SELECT a.id, a.name FROM activities as a " +
                 "inner join users as u ON u.id = a.user_id " +
-                "where u.login = '" + UserId + "';";
+                "where u.id = " + UserId + ";";
 
         ResultSet result = statement.executeQuery(SQL);
 
@@ -108,4 +125,21 @@ public class MyDataBase {
 
     }
 
+    public String getActNameByid(String id) throws SQLException {
+        Statement statement = connection.createStatement();
+        String SQL = "SELECT a.id, a.name FROM activities as a " +
+                "inner join users as u ON u.id = a.user_id " +
+                "where u.id = " + UserId + ";";
+
+        ResultSet result = statement.executeQuery(SQL);
+
+        return result.getString("name");
+    }
+
+    public void updateSumTimeOfActivity(String id, int sec) throws SQLException{
+        Statement statement = connection.createStatement();
+        String SQL = "update activities set totalseconds = totalseconds + " + sec + " where id = " + id;
+
+        statement.executeQuery(SQL);
+    }
 }

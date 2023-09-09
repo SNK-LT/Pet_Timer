@@ -24,8 +24,8 @@ import java.util.ResourceBundle;
 
 public class mainSceneController implements Initializable {
 
-    private MyDataBase DateBase = new MyDataBase();
-    private Connection cn = DateBase.connectToDB("PetTimer", "postgres", "2311");
+    private MyDataBase DateBase;
+    private Connection cn;
 
     @FXML
     private GridPane ActivitiesGrid;
@@ -54,25 +54,6 @@ public class mainSceneController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle){
-
-        try {
-            HashMap<String, String> allActivities = DateBase.getAllUserActivities(cn);
-
-            for(Map.Entry<String, String> entry : allActivities.entrySet())
-            {
-                FXMLLoader fxmlLoader = new FXMLLoader();
-                fxmlLoader.setLocation(getClass().getResource("activity.fxml"));
-
-                Pane pane = fxmlLoader.load();
-
-                ActivitiesGrid.add(pane, 0, row);
-                GridPane.setMargin(pane, new Insets(0, 0, 10, 0));
-                row++;
-            }
-
-        } catch (IOException | SQLException e) {
-            e.printStackTrace();
-        }
     }
 
     @FXML
@@ -99,5 +80,34 @@ public class mainSceneController implements Initializable {
         Stage stage = (Stage)sideField.getScene().getWindow();
         xOffset = stage.getX() - event.getScreenX();
         yOffset = stage.getY() - event.getScreenY();
+    }
+
+    public void sendDB(MyDataBase DateBase){
+        this.DateBase = DateBase;
+        this.cn = DateBase.getConnection();
+
+        try {
+            HashMap<String, String> allActivities = DateBase.getAllUserActivities();
+
+            for(Map.Entry<String, String> entry : allActivities.entrySet())
+            {
+                FXMLLoader fxmlLoader = new FXMLLoader();
+                fxmlLoader.setLocation(getClass().getResource("activity.fxml"));
+
+                Pane pane = fxmlLoader.load();
+
+                ActivityController activityController = fxmlLoader.getController();
+                activityController.setId(entry.getKey());
+                activityController.setActivityName(entry.getValue());
+                activityController.sendDB(DateBase);
+
+                ActivitiesGrid.add(pane, 0, row);
+                GridPane.setMargin(pane, new Insets(0, 0, 10, 0));
+                row++;
+            }
+
+        } catch (IOException | SQLException e) {
+            e.printStackTrace();
+        }
     }
 }

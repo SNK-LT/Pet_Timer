@@ -13,11 +13,6 @@
             <Image url="@../../../imagGifsVid/play.png" />
          </image>
       </ImageView>
-      <Text fx:id="acticityName" fill="WHITE" layoutX="112.0" layoutY="41.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Text" wrappingWidth="160.13671875">
-         <font>
-            <Font size="28.0" />
-         </font>
-      </Text>
       <Text fx:id="timeText" fill="WHITE" layoutX="377.0" layoutY="35.0" strokeType="OUTSIDE" strokeWidth="0.0" text="00:00:00">
          <font>
             <Font size="32.0" />
@@ -33,5 +28,10 @@
             <Image url="@../../../imagGifsVid/statisticImg.png" />
          </image>
       </ImageView>
+      <Text fx:id="activityName" fill="WHITE" layoutX="92.0" layoutY="23.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Text" wrappingWidth="261.7890625">
+         <font>
+            <Font size="24.0" />
+         </font>
+      </Text>
    </children>
 </AnchorPane>

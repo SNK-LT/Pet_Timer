@@ -37,8 +37,9 @@ import java.util.ResourceBundle;
 
 public class InitializeController implements Initializable {
 
-    private MyDataBase DateBase = new MyDataBase();
-    private Connection cn = DateBase.connectToDB("PetTimer", "postgres", "2311");
+    private MyDataBase DateBase = new MyDataBase("PetTimer", "postgres", "2311");
+    private Connection cn = DateBase.getConnection();
+
 
     @FXML
     private Circle circle1;
@@ -96,6 +97,9 @@ public class InitializeController implements Initializable {
                     FXMLLoader loader = new FXMLLoader(HelloApplication.class.getResource("mainScene.fxml"));
                     Parent root = loader.load();
 
+                    mainSceneController mainSceneController = loader.getController();
+                    mainSceneController.sendDB(DateBase);
+
                     Scene currentScene = ((Node) event.getSource()).getScene();
                     Scene newScene = new Scene(root);
                     newScene.setFill(Color.TRANSPARENT);
@@ -116,6 +120,9 @@ public class InitializeController implements Initializable {
                 {
                     FXMLLoader loader = new FXMLLoader(HelloApplication.class.getResource("mainScene.fxml"));
                     Parent root = loader.load();
+
+                    mainSceneController mainSceneController = loader.getController();
+                    mainSceneController.sendDB(DateBase);
 
                     Scene currentScene = ((Node) event.getSource()).getScene();
                     Scene newScene = new Scene(root);
