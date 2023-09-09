@@ -137,9 +137,15 @@ public class MyDataBase {
     }
 
     public void updateSumTimeOfActivity(String id, int sec) throws SQLException{
-        Statement statement = connection.createStatement();
-        String SQL = "update activities set totalseconds = totalseconds + " + sec + " where id = " + id;
+        try {
+            Statement statement = connection.createStatement();
+            String SQL = "update activities set totalseconds = totalseconds + " + sec + " where id = " + id;
 
-        statement.executeQuery(SQL);
+            statement.executeQuery(SQL);
+        }
+        catch (Exception e){
+
+        }
+
     }
 }

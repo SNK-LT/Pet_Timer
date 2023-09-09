@@ -7,6 +7,7 @@ import java.time.Duration;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ResourceBundle;
+import java.util.concurrent.atomic.AtomicBoolean;
 
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -39,40 +40,14 @@ public class ActivityController implements Initializable {
     /*public DateTimeFormatter dtf = DateTimeFormatter.ofPattern("HH:mm:ss");
     public LocalTime time = LocalTime.parse("00:00:00", dtf);*/
 
-    private boolean isRunning = false;
-    private boolean wasStarted = false;
+    private AtomicBoolean isRunning = new AtomicBoolean(false);
 
     private int hours = 0;
     private int min = 0;
     private int sec = 0;
-    private int step = 0;
+    private int step = -1;
 
-    Thread t = new Thread(() -> {
-        while(isRunning)
-        {
-            try
-            {
-                Thread.sleep(1000);
-
-                step++;
-                hours = step / 3600;
-                min = (step - hours * 3600) / 60;
-                sec = step - ((hours * 3600) + (min * 60));
-                timeText.setText(String.format("%02d:%02d:%02d", hours, min, sec));
-            }
-            catch (Exception e){}
-        }
-        try {
-            DateBase.updateSumTimeOfActivity(id, step);
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        step = 0;
-        hours = 0;
-        min = 0;
-        sec = 0;
-        timeText.setText(String.format("%02d:%02d:%02d", hours, min, sec));
-    });
+    private Thread t;
 
     public ActivityController(){
     }
@@ -86,12 +61,27 @@ public class ActivityController implements Initializable {
     void playImageClicked(MouseEvent event) {
         playImage.setVisible(false);
         stopImage.setVisible(true);
-        isRunning = true;
+        isRunning.set(true);
 
-        if(!wasStarted){
-            wasStarted = true;
-            t.start();
-        }
+        t = new Thread(() -> {
+            while(isRunning.get())
+            {
+                try
+                {
+                    step++;
+                    hours = step / 3600;
+                    min = (step - hours * 3600) / 60;
+                    sec = step - ((hours * 3600) + (min * 60));
+                    timeText.setText(String.format("%02d:%02d:%02d", hours, min, sec));
+                    Thread.sleep(1000);
+                }
+                catch (Exception e){
+                    e.printStackTrace();
+                }
+            }
+        });
+
+        t.start();
     }
 
     @FXML
@@ -99,7 +89,15 @@ public class ActivityController implements Initializable {
         playImage.setVisible(true);
         stopImage.setVisible(false);
 
-        isRunning = false;
+        isRunning.set(false);
+
+        DateBase.updateSumTimeOfActivity(id, step);
+
+        step = -1;
+        hours = 0;
+        min = 0;
+        sec = 0;
+        timeText.setText(String.format("%02d:%02d:%02d", hours, min, sec));
     }
 
     @Override
