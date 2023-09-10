@@ -11,10 +11,8 @@ public class MyDataBase {
 
     private String UserId;
     private String UserName;
-
-    private HashMap<String, String> userActivities;
-
     private Connection connection;
+    private Timestamp timestamp;
 
     public MyDataBase(String dbname, String user, String pass){
         Connection conn = null;
@@ -33,20 +31,8 @@ public class MyDataBase {
         connection = conn;
     }
 
-    public String getUserId() {
-        return UserId;
-    }
-
-    public String getUserName() {
-        return UserName;
-    }
-
     public Connection getConnection() {
         return connection;
-    }
-
-    public HashMap<String, String> getUserActivities() {
-        return userActivities;
     }
 
     public boolean tryToLogin(String login, String password, Connection cn) throws SQLException {
@@ -121,21 +107,6 @@ public class MyDataBase {
         return activityNames;
     }
 
-    public void endActivity(String log, String pass, Connection cn)  throws SQLException{
-
-    }
-
-    public String getActNameByid(String id) throws SQLException {
-        Statement statement = connection.createStatement();
-        String SQL = "SELECT a.id, a.name FROM activities as a " +
-                "inner join users as u ON u.id = a.user_id " +
-                "where u.id = " + UserId + ";";
-
-        ResultSet result = statement.executeQuery(SQL);
-
-        return result.getString("name");
-    }
-
     public void updateSumTimeOfActivity(String id, int sec) throws SQLException{
         try {
             Statement statement = connection.createStatement();
@@ -147,5 +118,31 @@ public class MyDataBase {
 
         }
 
+    }
+
+    public void createSession(String actID, Timestamp start){
+        try {
+            timestamp = new Timestamp(System.currentTimeMillis());
+            Statement statement = connection.createStatement();
+            String SQL = "insert into sessions (activity_id, start, \"end\") values (" + actID + ", '" + start + "', '" + timestamp + "')";
+
+            statement.executeQuery(SQL);
+        }
+        catch (Exception e){
+
+        }
+    }
+
+    public void endSession(String actID){
+        try {
+            timestamp = new Timestamp(System.currentTimeMillis());
+            Statement statement = connection.createStatement();
+            String SQL = "update sessions set end = '" + timestamp + "' where id = " + actID;
+
+            statement.executeQuery(SQL);
+        }
+        catch (Exception e){
+
+        }
     }
 }

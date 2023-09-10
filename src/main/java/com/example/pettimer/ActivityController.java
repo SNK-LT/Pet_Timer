@@ -3,6 +3,7 @@ package com.example.pettimer;
 import java.net.URL;
 import java.sql.Connection;
 import java.sql.SQLException;
+import java.sql.Timestamp;
 import java.time.Duration;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
@@ -19,6 +20,7 @@ public class ActivityController implements Initializable {
 
     private MyDataBase DateBase;
     private Connection cn;
+    private Timestamp timestamp;
 
     private String id;
 
@@ -58,7 +60,9 @@ public class ActivityController implements Initializable {
     }
 
     @FXML
-    void playImageClicked(MouseEvent event) {
+    void playImageClicked(MouseEvent event) throws SQLException {
+        timestamp = new Timestamp(System.currentTimeMillis());
+
         playImage.setVisible(false);
         stopImage.setVisible(true);
         isRunning.set(true);
@@ -86,6 +90,8 @@ public class ActivityController implements Initializable {
 
     @FXML
     void stopImageClicked(MouseEvent event) throws SQLException {
+        DateBase.createSession(id, timestamp);
+
         playImage.setVisible(true);
         stopImage.setVisible(false);
 
