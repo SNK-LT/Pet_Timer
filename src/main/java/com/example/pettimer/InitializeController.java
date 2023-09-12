@@ -83,6 +83,7 @@ public class InitializeController implements Initializable {
     private Text noAccText;
 
     public InitializeController() throws SQLException {
+
     }
 
     @FXML
