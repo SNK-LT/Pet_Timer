@@ -5,10 +5,6 @@ import java.util.HashMap;
 
 public class MyDataBase {
 
-    //static final String DB_USERNAME = "postgres";
-    //static final String DB_PASSWORD = "kbndbyjd";
-    //static final String DB_URL = "jdbc:postgresql://localhost:5432/postgres?currentSchema=PetTimer";
-
     private String UserId;
     private String UserName;
     private Connection connection;
@@ -133,16 +129,24 @@ public class MyDataBase {
         }
     }
 
-    public void endSession(String actID){
+    public String getTodaySumTimeByActivityId(String actID)   {
         try {
             timestamp = new Timestamp(System.currentTimeMillis());
             Statement statement = connection.createStatement();
-            String SQL = "update sessions set end = '" + timestamp + "' where id = " + actID;
+            String SQL = "SELECT TO_CHAR(INTERVAL '1 second' * SUM(EXTRACT(EPOCH FROM (\"end\" - start))), \'HH24:MI:SS\') " +
+                    "AS total_duration FROM sessions WHERE DATE(start) = CURRENT_DATE " +
+                    "AND activity_id = " + actID;
 
-            statement.executeQuery(SQL);
+            ResultSet result = statement.executeQuery(SQL);
+            if (result.next()) {
+                String totalDuration = result.getString("total_duration");
+                return totalDuration;
+            }
         }
         catch (Exception e){
 
         }
+        return "00:00:00";
     }
+
 }

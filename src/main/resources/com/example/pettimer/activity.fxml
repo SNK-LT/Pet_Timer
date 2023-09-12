@@ -33,5 +33,10 @@
             <Font size="24.0" />
          </font>
       </Text>
+      <Text fx:id="todaySumTime" fill="#aeaeae" layoutX="92.0" layoutY="65.0" strokeType="OUTSIDE" strokeWidth="0.0" text="00:00:00">
+         <font>
+            <Font size="20.0" />
+         </font>
+      </Text>
    </children>
 </AnchorPane>

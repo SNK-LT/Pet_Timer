@@ -34,6 +34,9 @@ public class ActivityController implements Initializable {
     private ImageView statisticImage;
 
     @FXML
+    private Text todaySumTime;
+
+    @FXML
     private ImageView stopImage;
 
     @FXML
@@ -91,6 +94,7 @@ public class ActivityController implements Initializable {
     @FXML
     void stopImageClicked(MouseEvent event) throws SQLException {
         DateBase.createSession(id, timestamp);
+        todaySumTime.setText(DateBase.getTodaySumTimeByActivityId(id));
 
         playImage.setVisible(true);
         stopImage.setVisible(false);
@@ -125,8 +129,9 @@ public class ActivityController implements Initializable {
         this.activityName.setText(actName);
     }
 
-    public void sendDB(MyDataBase DateBase) {
+    public void sendDB(MyDataBase DateBase) throws SQLException {
         this.DateBase = DateBase;
         this.cn = DateBase.getConnection();
+        this.todaySumTime.setText(DateBase.getTodaySumTimeByActivityId(id));
     }
 }
