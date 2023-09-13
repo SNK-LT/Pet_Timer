@@ -1,20 +1,16 @@
 package com.example.pettimer;
 
-import java.net.URL;
-import java.sql.Connection;
-import java.sql.SQLException;
-import java.sql.Timestamp;
-import java.time.Duration;
-import java.time.LocalTime;
-import java.time.format.DateTimeFormatter;
-import java.util.ResourceBundle;
-import java.util.concurrent.atomic.AtomicBoolean;
-
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.text.Text;
+import java.net.URL;
+import java.sql.Connection;
+import java.sql.SQLException;
+import java.sql.Timestamp;
+import java.util.ResourceBundle;
+import java.util.concurrent.atomic.AtomicBoolean;
 
 public class ActivityController implements Initializable {
 
@@ -134,4 +130,5 @@ public class ActivityController implements Initializable {
         this.cn = DateBase.getConnection();
         this.todaySumTime.setText(DateBase.getTodaySumTimeByActivityId(id));
     }
+
 }

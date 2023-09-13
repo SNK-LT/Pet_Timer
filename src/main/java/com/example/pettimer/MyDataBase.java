@@ -129,6 +129,25 @@ public class MyDataBase {
         }
     }
 
+    public boolean createActivity(String name){
+        boolean ifCreated = false;
+        try {
+            Statement statement = connection.createStatement();
+
+            String SQL = "SELECT * FROM activities WHERE name = '" + name + "'";
+            ResultSet result = statement.executeQuery(SQL);
+            if(!result.next()){
+                ifCreated = true;
+                SQL = "insert into activities  (name, user_id) values ('" + name + "', " + UserId + ")";
+                statement.executeQuery(SQL);
+            }
+        }
+        catch (Exception e){
+
+        }
+        return ifCreated;
+    }
+
     public String getTodaySumTimeByActivityId(String actID)   {
         try {
             timestamp = new Timestamp(System.currentTimeMillis());
@@ -147,6 +166,23 @@ public class MyDataBase {
 
         }
         return "00:00:00";
+    }
+
+    public String getIdByActName(String name){
+        String id = null;
+        try {
+            Statement statement = connection.createStatement();
+            String SQL = "select id from activities where name = '" + name + "'";
+
+            ResultSet result = statement.executeQuery(SQL);
+            if (result.next()){
+                id = result.getString("id");
+            }
+        }
+        catch (Exception e){
+
+        }
+        return id;
     }
 
 }

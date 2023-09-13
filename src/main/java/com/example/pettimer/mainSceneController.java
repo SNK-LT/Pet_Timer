@@ -1,6 +1,7 @@
 package com.example.pettimer;
 
-import javafx.animation.*;
+import javafx.animation.RotateTransition;
+import javafx.animation.TranslateTransition;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -9,31 +10,23 @@ import javafx.geometry.Insets;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Button;
 import javafx.scene.control.ScrollPane;
-import javafx.scene.control.Slider;
+import javafx.scene.control.TextField;
 import javafx.scene.image.ImageView;
-import javafx.scene.input.ContextMenuEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
-import javafx.scene.shape.Circle;
-import javafx.scene.shape.MoveTo;
-import javafx.scene.shape.Path;
-import javafx.scene.shape.Polyline;
 import javafx.scene.text.Text;
-import javafx.scene.transform.Rotate;
-import javafx.scene.transform.Translate;
 import javafx.stage.Stage;
 import javafx.util.Duration;
-
 import java.io.IOException;
 import java.net.URL;
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.Map;
 import java.util.ResourceBundle;
 
@@ -58,6 +51,12 @@ public class mainSceneController implements Initializable {
     private ScrollPane scrollPane;
 
     @FXML
+    private Button createNewActButton;
+
+    @FXML
+    private TextField newActName;
+
+    @FXML
     private Text idText;
 
     @FXML
@@ -80,7 +79,8 @@ public class mainSceneController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle){
-        moveTheObject(slidingField, -200, 0, 200, 1);
+        moveTheObject(slidingField, -210, 0, 200, 1);
+        newActName.setFocusTraversable(false);
     }
 
     private void rotateTheObject(Node node, int angle, double millis, int cycleCount) {
@@ -101,6 +101,29 @@ public class mainSceneController implements Initializable {
     }
 
     @FXML
+    void createNewActButtonClicked(MouseEvent event) throws SQLException, IOException {
+        String name = newActName.getText();
+        if(!DateBase.createActivity(name)){
+            errorNewActShake(name);
+        }
+        else{
+            FXMLLoader fxmlLoader = new FXMLLoader();
+            fxmlLoader.setLocation(getClass().getResource("activity.fxml"));
+
+            Pane pane = fxmlLoader.load();
+
+            ActivityController activityController = fxmlLoader.getController();
+            activityController.setId(DateBase.getIdByActName(name));
+            activityController.setActivityName(name);
+            activityController.sendDB(DateBase);
+
+            ActivitiesGrid.add(pane, 0, row);
+            GridPane.setMargin(pane, new Insets(0, 0, 10, 0));
+            row++;
+        }
+    }
+
+    @FXML
     void addActImgClicked(MouseEvent event) {
         if(!addActIsClicked){
             addActIsClicked = true;
@@ -111,7 +134,7 @@ public class mainSceneController implements Initializable {
         else {
             addActIsClicked = false;
             rotateTheObject(createNewActImg, -45, 200, 1);
-            moveTheObject(slidingField, -200, 0, 200, 1);
+            moveTheObject(slidingField, -210, 0, 200, 1);
         }
     }
 
@@ -187,4 +210,28 @@ public class mainSceneController implements Initializable {
             e.printStackTrace();
         }
     }
+
+    private void errorNewActShake(String name){
+        newActName.clear();
+
+        /*todo Как-то реализовать скролинк к существубщей с таким именем активности и подсвечиванием её на время красным
+        Node activity = null;
+        ObservableList<Node> childrens = ActivitiesGrid.getChildren();
+
+        for (Node node : childrens) {
+            if(ActivitiesGrid.getRowIndex(node) == row) {
+                activity = node;
+                break;
+            }
+        }
+        ActivitiesGrid.setOnScroll();*/
+
+        TranslateTransition tt = new TranslateTransition(Duration.millis(50), slidingField);
+
+        tt.setToX(-10);
+        tt.setAutoReverse(true);
+        tt.setCycleCount(4);
+        tt.play();
+    }
+
 }

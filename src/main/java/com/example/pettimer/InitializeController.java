@@ -1,13 +1,13 @@
 package com.example.pettimer;
 
-import javafx.animation.*;
+import javafx.animation.RotateTransition;
+import javafx.animation.ScaleTransition;
+import javafx.animation.TranslateTransition;
 import javafx.application.Platform;
-import javafx.beans.property.DoubleProperty;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
-import javafx.geometry.Insets;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -19,14 +19,10 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
-import javafx.scene.shape.Path;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
-import javafx.stage.StageStyle;
 import javafx.util.Duration;
-import java.awt.Desktop;
-import java.net.URI;
-
+import java.awt.*;
 import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
@@ -259,9 +255,7 @@ public class InitializeController implements Initializable {
     }
 
     private void errorLoginShake(){
-        TranslateTransition tt = new TranslateTransition();
-        tt.setDuration(Duration.millis(50));
-        tt.setNode(slidingField);
+        TranslateTransition tt = new TranslateTransition(Duration.millis(50), slidingField);
 
         tt.setToX(-10);
         tt.setAutoReverse(true);
