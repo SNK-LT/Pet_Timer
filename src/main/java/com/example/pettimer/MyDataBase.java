@@ -134,7 +134,7 @@ public class MyDataBase {
         try {
             Statement statement = connection.createStatement();
 
-            String SQL = "SELECT * FROM activities WHERE name = '" + name + "'";
+            String SQL = "SELECT * FROM activities WHERE name = '" + name + "' AND user_id = '" + UserId + "'";
             ResultSet result = statement.executeQuery(SQL);
             if(!result.next()){
                 ifCreated = true;
