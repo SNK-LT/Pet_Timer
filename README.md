@@ -18,8 +18,8 @@ The purpose of the application is to optimize your personal time, which we all m
 
 ### Let's get acquainted with the interface and figure out how to use it
 </div>
-!
+
 <div align="center">
 
-
+![Sequence 01_1](https://github.com/SNK-LT/Pet_Timer/blob/master/stuff/1.png?raw=true)
 </div>
